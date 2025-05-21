@@ -3,7 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider/provider.dart' as provider_pkg;
 import 'dart:developer' as developer;
-import 'env/env.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -71,12 +71,15 @@ void main() async { // Modified to be async
   //   // Continue app initialization even if Firebase fails // Removed
   // } // Removed
 
-  // Initialize Supabase using environment variables
+  // Load environment variables and initialize Supabase
+  await dotenv.load();
   try {
     await Supabase.initialize(
-      url: Env.supabaseUrl,
-      anonKey: Env.supabaseAnonKey,
+      url: dotenv.env['SUPABASE_URL']!,
+      anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
+      authFlowType: AuthFlowType.pkce,
     );
+    debugPrint("Supabase URL = \${dotenv.env['SUPABASE_URL']}");
     developer.log('Supabase initialized successfully', name: 'TonTon.SupabaseInit');
   } catch (e, stack) {
     developer.log('Error initializing Supabase: $e', name: 'TonTon.SupabaseInit.Error', error: e, stackTrace: stack);
