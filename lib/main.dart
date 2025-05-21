@@ -3,7 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider/provider.dart' as provider_pkg;
 import 'dart:developer' as developer;
-import 'dart:io' show Platform; // For accessing environment variables
+import 'env/env.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -73,14 +73,9 @@ void main() async { // Modified to be async
 
   // Initialize Supabase using environment variables
   try {
-    final supabaseUrl =
-        Platform.environment['SUPABASE_URL'] ?? const String.fromEnvironment('SUPABASE_URL');
-    final supabaseAnonKey = Platform.environment['SUPABASE_ANON_KEY'] ??
-        const String.fromEnvironment('SUPABASE_ANON_KEY');
-
     await Supabase.initialize(
-      url: supabaseUrl,
-      anonKey: supabaseAnonKey,
+      url: Env.supabaseUrl,
+      anonKey: Env.supabaseAnonKey,
     );
     developer.log('Supabase initialized successfully', name: 'TonTon.SupabaseInit');
   } catch (e, stack) {
