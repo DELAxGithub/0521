@@ -33,16 +33,14 @@ flutter run -d chrome lib/dashbook.dart
 
 ### Environment Variables
 
-The app requires Supabase credentials to run. Set these variables in your shell
-or pass them at build time:
+Create a `.env` file using the provided `.env.example` and add your Supabase credentials.
 
 ```bash
-export SUPABASE_URL="https://your-project.supabase.co"
-export SUPABASE_ANON_KEY="your-anon-key"
+cp .env.example .env  # first time only
+flutter run           # dart-define flags are no longer required
 ```
 
-These values are read in `lib/main.dart` and test scripts via
-`Platform.environment`/`String.fromEnvironment`.
+The application loads these values at runtime via `flutter_dotenv`.
 ## Development Progress
 
 The following milestones summarize the main features implemented so far:
